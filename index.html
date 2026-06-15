@@ -56,7 +56,7 @@
             margin-bottom: 12px;
             border-radius: 8px;
             overflow: hidden;
-            background-color: #00d0ff;
+            background-color: #00c0ef;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
@@ -161,7 +161,6 @@
             padding: 30px;
         }
 
-        /* 変更点：タイトル欄が自動で改行されるように設定を変更 */
         .title-input {
             width: 100%;
             background-color: transparent;
@@ -172,13 +171,12 @@
             margin-bottom: 20px;
             outline: none;
             font-family: inherit;
-            white-space: pre-wrap;     /* 改行を許可 */
-            word-break: break-word;    /* 長い単語でも折り返す */
+            white-space: pre-wrap;     
+            word-break: break-word;    
             cursor: text;
             line-height: 1.4;
         }
 
-        /* タイトルが空の時の案内文（プレースホルダー）の設定 */
         .title-input[contenteditable="true"]:empty:before {
             content: attr(placeholder);
             color: #666;
@@ -229,7 +227,7 @@
 
     <div id="listView" class="container" style="display: none;">
         <div class="header-action">
-            <h2>一覧</h2>
+            <h2>文章一覧</h2>
             <button id="newPostBtn" class="primary-button">＋ NEW</button>
         </div>
         <div id="articleList"></div>
@@ -246,7 +244,6 @@
             
             <div class="preview-content">
                 <div id="titleInput" class="title-input" contenteditable="true" placeholder="タイトルを入力"></div>
-                
                 <div class="divider"></div>
                 <div id="editableText" class="preview-text" contenteditable="true" placeholder="ここをタップして文章を入力してください..."></div>
                 <button id="backToListBtn" class="back-button">← 保存して戻る</button>
@@ -255,11 +252,26 @@
     </div>
 
     <script>
-        let articles = [
-            
+        // --- データの管理（ローカルストレージの追加） ---
+        const STORAGE_KEY = 'my_post_app_data';
+
+        // 1. ページを開いた時、保存されているデータがあれば読み込む
+        const savedData = localStorage.getItem(STORAGE_KEY);
+        let articles = savedData ? JSON.parse(savedData) : [
+            {
+                id: Date.now(),
+                title: "無題",
+                content: "",
+                image: "" 
+            }
         ];
         
         let currentEditId = null;
+
+        // 2. データを保存するための関数
+        function saveData() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(articles));
+        }
 
         const listView = document.getElementById('listView');
         const editorView = document.getElementById('editorView');
@@ -308,7 +320,6 @@
         function openArticle(id) {
             if (id === null) {
                 currentEditId = null;
-                // 変更点：タグが変わったので .value から .innerText に変更
                 titleInput.innerText = '';
                 editableText.innerText = '';
                 previewImage.src = '';
@@ -318,7 +329,6 @@
                 const article = articles.find(a => a.id === id);
                 if (article) {
                     currentEditId = article.id;
-                    // 変更点：.value から .innerText に変更
                     titleInput.innerText = article.title;
                     editableText.innerText = article.content;
                     
@@ -338,7 +348,6 @@
         }
 
         backToListBtn.addEventListener('click', () => {
-            // 変更点：.value から .innerText に変更
             const title = titleInput.innerText.trim() || "無題";
             const content = editableText.innerText.trim();
             const image = previewImage.style.display === 'block' ? previewImage.src : "";
@@ -352,6 +361,9 @@
                 articles.unshift({ id: Date.now(), title, content, image });
             }
 
+            // 変更点：記事を追加・更新したタイミングでブラウザに保存する
+            saveData();
+            
             renderList();
             showListView();
         });
@@ -372,6 +384,8 @@
                 deleteBg.innerHTML = '削除';
                 deleteBg.addEventListener('click', () => {
                     articles = articles.filter(a => a.id !== article.id);
+                    // 変更点：記事を削除したタイミングでもブラウザに保存（上書き）する
+                    saveData();
                     renderList();
                 });
 
