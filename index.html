@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章を貯める</title>
+    <style>
+        /* --- 基本設定 --- */
+        body {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        /* --- 記事一覧画面のスタイル --- */
+        .header-action {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header-action h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .primary-button {
+            background-color: #4a90e2;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        .primary-button:hover {
+            background-color: #357abd;
+        }
+
+        .list-item-wrapper {
+            position: relative;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #00d0ff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .delete-action {
+            position: absolute;
+            top: 0;
+            right: 0; 
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; 
+            padding-right: 20px; 
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            box-sizing: border-box;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .article-item {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1f1f1f;
+            padding: 15px;
+            border-radius: 8px;
+            user-select: none; 
+            touch-action: pan-y;
+        }
+
+        .article-item:hover {
+            background-color: #2a2a2a;
+        }
+
+        .article-title {
+            flex: 1;
+            font-size: 16px;
+            font-weight: bold;
+            padding-right: 15px;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+
+        .article-thumb {
+            width: 80px;
+            height: 80px;
+            border-radius: 6px;
+            object-fit: cover;
+            background-color: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 12px;
+            pointer-events: none; 
+            flex-shrink: 0; 
+        }
+
+        /* --- プレビュー兼編集画面のスタイル --- */
+        .preview-section {
+            background-color: #1f1f1f;
+            padding: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .preview-image-container {
+            width: 100%;
+            min-height: 250px;
+            background-color: #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: background-color 0.2s;
+        }
+
+        .preview-image-container:hover {
+            background-color: #333;
+        }
+
+        .image-placeholder {
+            color: #888;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .preview-image-container img {
+            width: 100%;
+            height: auto;
+            display: none;
+            vertical-align: bottom;
+        }
+
+        .preview-content {
+            padding: 30px;
+        }
+
+        /* 変更点：タイトル欄が自動で改行されるように設定を変更 */
+        .title-input {
+            width: 100%;
+            background-color: transparent;
+            border: none;
+            color: #e0e0e0;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            outline: none;
+            font-family: inherit;
+            white-space: pre-wrap;     /* 改行を許可 */
+            word-break: break-word;    /* 長い単語でも折り返す */
+            cursor: text;
+            line-height: 1.4;
+        }
+
+        /* タイトルが空の時の案内文（プレースホルダー）の設定 */
+        .title-input[contenteditable="true"]:empty:before {
+            content: attr(placeholder);
+            color: #666;
+            pointer-events: none;
+            display: block;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #444;
+            margin-bottom: 20px;
+        }
+
+        .preview-text {
+            line-height: 1.8;
+            font-size: 15px;
+            margin-bottom: 40px;
+            white-space: pre-wrap;
+            min-height: 100px;
+            outline: none;
+            cursor: text;
+        }
+
+        .preview-text[contenteditable="true"]:empty:before {
+            content: attr(placeholder);
+            color: #666;
+            pointer-events: none;
+            display: block;
+        }
+
+        .back-button {
+            background-color: #4a4a4a;
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: #5a5a5a;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="listView" class="container" style="display: none;">
+        <div class="header-action">
+            <h2>一覧</h2>
+            <button id="newPostBtn" class="primary-button">＋ NEW</button>
+        </div>
+        <div id="articleList"></div>
+    </div>
+
+    <div id="editorView" class="container">
+        <div class="preview-section">
+            <input type="file" id="hiddenImageInput" accept="image/*" style="display: none;">
+            
+            <div class="preview-image-container" id="imageContainer" title="クリックして画像を設定">
+                <div id="imagePlaceholder" class="image-placeholder">＋ ここをタップして画像を設定</div>
+                <img id="previewImage" src="" alt="設定された画像">
+            </div>
+            
+            <div class="preview-content">
+                <div id="titleInput" class="title-input" contenteditable="true" placeholder="タイトルを入力"></div>
+                
+                <div class="divider"></div>
+                <div id="editableText" class="preview-text" contenteditable="true" placeholder="ここをタップして文章を入力してください..."></div>
+                <button id="backToListBtn" class="back-button">← 保存して戻る</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let articles = [
+            
+        ];
+        
+        let currentEditId = null;
+
+        const listView = document.getElementById('listView');
+        const editorView = document.getElementById('editorView');
+        const articleList = document.getElementById('articleList');
+        
+        const newPostBtn = document.getElementById('newPostBtn');
+        const backToListBtn = document.getElementById('backToListBtn');
+        
+        const imageContainer = document.getElementById('imageContainer');
+        const hiddenImageInput = document.getElementById('hiddenImageInput');
+        const previewImage = document.getElementById('previewImage');
+        const imagePlaceholder = document.getElementById('imagePlaceholder');
+        const titleInput = document.getElementById('titleInput');
+        const editableText = document.getElementById('editableText');
+
+        renderList();
+        showListView();
+
+        imageContainer.addEventListener('click', () => {
+            hiddenImageInput.click();
+        });
+
+        hiddenImageInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewImage.src = e.target.result;
+                    previewImage.style.display = 'block';
+                    imagePlaceholder.style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function showListView() {
+            editorView.style.display = 'none';
+            listView.style.display = 'block';
+        }
+
+        function showEditorView() {
+            listView.style.display = 'none';
+            editorView.style.display = 'block';
+        }
+
+        function openArticle(id) {
+            if (id === null) {
+                currentEditId = null;
+                // 変更点：タグが変わったので .value から .innerText に変更
+                titleInput.innerText = '';
+                editableText.innerText = '';
+                previewImage.src = '';
+                previewImage.style.display = 'none';
+                imagePlaceholder.style.display = 'block';
+            } else {
+                const article = articles.find(a => a.id === id);
+                if (article) {
+                    currentEditId = article.id;
+                    // 変更点：.value から .innerText に変更
+                    titleInput.innerText = article.title;
+                    editableText.innerText = article.content;
+                    
+                    if (article.image) {
+                        previewImage.src = article.image;
+                        previewImage.style.display = 'block';
+                        imagePlaceholder.style.display = 'none';
+                    } else {
+                        previewImage.src = '';
+                        previewImage.style.display = 'none';
+                        imagePlaceholder.style.display = 'block';
+                    }
+                }
+            }
+            hiddenImageInput.value = '';
+            showEditorView();
+        }
+
+        backToListBtn.addEventListener('click', () => {
+            // 変更点：.value から .innerText に変更
+            const title = titleInput.innerText.trim() || "無題";
+            const content = editableText.innerText.trim();
+            const image = previewImage.style.display === 'block' ? previewImage.src : "";
+
+            if (currentEditId !== null) {
+                const index = articles.findIndex(a => a.id === currentEditId);
+                if (index !== -1) {
+                    articles[index] = { id: currentEditId, title, content, image };
+                }
+            } else {
+                articles.unshift({ id: Date.now(), title, content, image });
+            }
+
+            renderList();
+            showListView();
+        });
+
+        newPostBtn.addEventListener('click', () => {
+            openArticle(null);
+        });
+
+        function renderList() {
+            articleList.innerHTML = '';
+            
+            articles.forEach(article => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'list-item-wrapper';
+
+                const deleteBg = document.createElement('div');
+                deleteBg.className = 'delete-action';
+                deleteBg.innerHTML = '削除';
+                deleteBg.addEventListener('click', () => {
+                    articles = articles.filter(a => a.id !== article.id);
+                    renderList();
+                });
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'article-item';
+                
+                const thumbHtml = article.image 
+                    ? `<img src="${article.image}" class="article-thumb" alt="thumbnail">`
+                    : `<div class="article-thumb">No Image</div>`;
+
+                itemDiv.innerHTML = `
+                    <div class="article-title">${article.title}</div>
+                    ${thumbHtml}
+                `;
+
+                wrapper.appendChild(deleteBg);
+                wrapper.appendChild(itemDiv);
+                articleList.appendChild(wrapper);
+
+                let startX = 0;
+                let currentX = 0;
+                let isDragging = false;
+
+                itemDiv.addEventListener('pointerdown', (e) => {
+                    startX = e.clientX;
+                    isDragging = true;
+                    itemDiv.style.transition = 'none'; 
+                    itemDiv.setPointerCapture(e.pointerId);
+                });
+
+                itemDiv.addEventListener('pointermove', (e) => {
+                    if (!isDragging) return;
+                    currentX = e.clientX;
+                    let diff = currentX - startX;
+                    
+                    if (diff < 0) {
+                        let moveX = diff < -80 ? -80 + (diff + 80) * 0.2 : diff;
+                        itemDiv.style.transform = `translateX(${moveX}px)`;
+                    }
+                });
+
+                itemDiv.addEventListener('pointerup', (e) => {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    itemDiv.style.transition = 'transform 0.3s ease'; 
+                    
+                    let diff = e.clientX - startX;
+
+                    if (diff < -50) {
+                        itemDiv.style.transform = `translateX(-80px)`;
+                    } else {
+                        itemDiv.style.transform = `translateX(0)`;
+                        
+                        if (Math.abs(diff) < 5) {
+                            openArticle(article.id);
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
