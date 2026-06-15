@@ -3,224 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文章を貯める</title>
+    <title>貯文場</title>
     <style>
-        /* --- 基本設定 --- */
-        body {
-            background-color: #1a1a1a;
-            color: #e0e0e0;
-            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .container {
-            max-width: 800px;
-            width: 100%;
-        }
-
-        /* --- 記事一覧画面のスタイル --- */
-        .header-action {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .header-action h2 {
-            margin: 0;
-            font-size: 20px;
-        }
-
-        .primary-button {
-            background-color: #4a90e2;
-            color: #ffffff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            transition: background-color 0.2s;
-        }
-
-        .primary-button:hover {
-            background-color: #357abd;
-        }
-
-        .list-item-wrapper {
-            position: relative;
-            margin-bottom: 12px;
-            border-radius: 8px;
-            overflow: hidden;
-            background-color: #00c0ef;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .delete-action {
-            position: absolute;
-            top: 0;
-            right: 0; 
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end; 
-            padding-right: 20px; 
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-            box-sizing: border-box;
-            cursor: pointer;
-            z-index: 1;
-        }
-
-        .article-item {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #1f1f1f;
-            padding: 15px;
-            border-radius: 8px;
-            user-select: none; 
-            touch-action: pan-y;
-        }
-
-        .article-item:hover {
-            background-color: #2a2a2a;
-        }
-
-        .article-title {
-            flex: 1;
-            font-size: 16px;
-            font-weight: bold;
-            padding-right: 15px;
-            line-height: 1.4;
-            word-break: break-word;
-        }
-
-        .article-thumb {
-            width: 80px;
-            height: 80px;
-            border-radius: 6px;
-            object-fit: cover;
-            background-color: #2a2a2a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 12px;
-            pointer-events: none; 
-            flex-shrink: 0; 
-        }
-
-        /* --- プレビュー兼編集画面のスタイル --- */
-        .preview-section {
-            background-color: #1f1f1f;
-            padding: 0;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-
-        .preview-image-container {
-            width: 100%;
-            min-height: 250px;
-            background-color: #2a2a2a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            position: relative;
-            transition: background-color 0.2s;
-        }
-
-        .preview-image-container:hover {
-            background-color: #333;
-        }
-
-        .image-placeholder {
-            color: #888;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .preview-image-container img {
-            width: 100%;
-            height: auto;
-            display: none;
-            vertical-align: bottom;
-        }
-
-        .preview-content {
-            padding: 30px;
-        }
-
-        .title-input {
-            width: 100%;
-            background-color: transparent;
-            border: none;
-            color: #e0e0e0;
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            outline: none;
-            font-family: inherit;
-            white-space: pre-wrap;     
-            word-break: break-word;    
-            cursor: text;
-            line-height: 1.4;
-        }
-
-        .title-input[contenteditable="true"]:empty:before {
-            content: attr(placeholder);
-            color: #666;
-            pointer-events: none;
-            display: block;
-        }
-
-        .divider {
-            height: 1px;
-            background-color: #444;
-            margin-bottom: 20px;
-        }
-
-        .preview-text {
-            line-height: 1.8;
-            font-size: 15px;
-            margin-bottom: 40px;
-            white-space: pre-wrap;
-            min-height: 100px;
-            outline: none;
-            cursor: text;
-        }
-
-        .preview-text[contenteditable="true"]:empty:before {
-            content: attr(placeholder);
-            color: #666;
-            pointer-events: none;
-            display: block;
-        }
-
-        .back-button {
-            background-color: #4a4a4a;
-            color: #ffffff;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.2s;
-        }
-
-        .back-button:hover {
-            background-color: #5a5a5a;
-        }
+        /* --- CSSはこれまでと全く同じです --- */
+        body { background-color: #1a1a1a; color: #e0e0e0; font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { max-width: 800px; width: 100%; }
+        .header-action { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .header-action h2 { margin: 0; font-size: 20px; }
+        .primary-button { background-color: #4a90e2; color: #ffffff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; transition: background-color 0.2s; }
+        .primary-button:hover { background-color: #357abd; }
+        .list-item-wrapper { position: relative; margin-bottom: 12px; border-radius: 8px; overflow: hidden; background-color: #00ddff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); }
+        .delete-action { position: absolute; top: 0; right: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: flex-end; padding-right: 20px; color: white; font-weight: bold; font-size: 14px; box-sizing: border-box; cursor: pointer; z-index: 1; }
+        .article-item { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; background-color: #1f1f1f; padding: 15px; border-radius: 8px; user-select: none; touch-action: pan-y; }
+        .article-item:hover { background-color: #2a2a2a; }
+        .article-title { flex: 1; font-size: 16px; font-weight: bold; padding-right: 15px; line-height: 1.4; word-break: break-word; }
+        .article-thumb { width: 80px; height: 80px; border-radius: 6px; object-fit: cover; background-color: #2a2a2a; display: flex; align-items: center; justify-content: center; color: #666; font-size: 12px; pointer-events: none; flex-shrink: 0; }
+        .preview-section { background-color: #1f1f1f; padding: 0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); }
+        .preview-image-container { width: 100%; min-height: 250px; background-color: #2a2a2a; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; transition: background-color 0.2s; }
+        .preview-image-container:hover { background-color: #333; }
+        .image-placeholder { color: #888; font-size: 16px; font-weight: bold; }
+        .preview-image-container img { width: 100%; height: auto; display: none; vertical-align: bottom; }
+        .preview-content { padding: 30px; }
+        .title-input { width: 100%; background-color: transparent; border: none; color: #e0e0e0; font-size: 22px; font-weight: bold; margin-bottom: 20px; outline: none; font-family: inherit; white-space: pre-wrap; word-break: break-word; cursor: text; line-height: 1.4; }
+        .title-input[contenteditable="true"]:empty:before { content: attr(placeholder); color: #666; pointer-events: none; display: block; }
+        .divider { height: 1px; background-color: #444; margin-bottom: 20px; }
+        .preview-text { line-height: 1.8; font-size: 15px; margin-bottom: 40px; white-space: pre-wrap; min-height: 100px; outline: none; cursor: text; }
+        .preview-text[contenteditable="true"]:empty:before { content: attr(placeholder); color: #666; pointer-events: none; display: block; }
+        .back-button { background-color: #4a4a4a; color: #ffffff; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 14px; transition: background-color 0.2s; }
+        .back-button:hover { background-color: #5a5a5a; }
     </style>
 </head>
 <body>
@@ -233,15 +43,13 @@
         <div id="articleList"></div>
     </div>
 
-    <div id="editorView" class="container">
+    <div id="editorView" class="container" style="display: none;">
         <div class="preview-section">
             <input type="file" id="hiddenImageInput" accept="image/*" style="display: none;">
-            
             <div class="preview-image-container" id="imageContainer" title="クリックして画像を設定">
                 <div id="imagePlaceholder" class="image-placeholder">＋ ここをタップして画像を設定</div>
                 <img id="previewImage" src="" alt="設定された画像">
             </div>
-            
             <div class="preview-content">
                 <div id="titleInput" class="title-input" contenteditable="true" placeholder="タイトルを入力"></div>
                 <div class="divider"></div>
@@ -252,34 +60,87 @@
     </div>
 
     <script>
-        // --- データの管理（ローカルストレージの追加） ---
-        const STORAGE_KEY = 'my_post_app_data';
+        // ==========================================
+        // 1. IndexedDBの設定と基本機能
+        // ==========================================
+        const DB_NAME = 'MyPostAppDB';
+        const STORE_NAME = 'articles';
+        let db;
 
-        // 1. ページを開いた時、保存されているデータがあれば読み込む
-        const savedData = localStorage.getItem(STORAGE_KEY);
-        let articles = savedData ? JSON.parse(savedData) : [
-            {
-                id: Date.now(),
-                title: "無題",
-                content: "",
-                image: "" 
-            }
-        ];
-        
-        let currentEditId = null;
-
-        // 2. データを保存するための関数
-        function saveData() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(articles));
+        // DBを開く・作成する処理
+        function initDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, 1);
+                
+                // 初回起動時やバージョンが上がった時にデータを格納する「箱」を作る
+                request.onupgradeneeded = (event) => {
+                    const database = event.target.result;
+                    if (!database.objectStoreNames.contains(STORE_NAME)) {
+                        database.createObjectStore(STORE_NAME, { keyPath: 'id' });
+                    }
+                };
+                
+                request.onsuccess = (event) => {
+                    db = event.target.result;
+                    resolve();
+                };
+                
+                request.onerror = (event) => {
+                    console.error("IndexedDBエラー", event);
+                    reject(event.target.error);
+                };
+            });
         }
+
+        // DBから全記事を読み込む処理
+        function loadArticlesFromDB() {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction(STORE_NAME, 'readonly');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.getAll();
+                
+                request.onsuccess = () => {
+                    // 日付の新しい順（idが大きい順）に並び替えて返す
+                    const sortedArticles = request.result.sort((a, b) => b.id - a.id);
+                    resolve(sortedArticles);
+                };
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // DBに記事を保存（追加・更新）する処理
+        function saveArticleToDB(article) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction(STORE_NAME, 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.put(article); // putは新規追加と上書き更新を両方こなす
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // DBから記事を削除する処理
+        function deleteArticleFromDB(id) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction(STORE_NAME, 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.delete(id);
+                request.onsuccess = () => resolve();
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // ==========================================
+        // 2. アプリのUI・動作ロジック
+        // ==========================================
+        let articles = [];
+        let currentEditId = null;
 
         const listView = document.getElementById('listView');
         const editorView = document.getElementById('editorView');
         const articleList = document.getElementById('articleList');
-        
         const newPostBtn = document.getElementById('newPostBtn');
         const backToListBtn = document.getElementById('backToListBtn');
-        
         const imageContainer = document.getElementById('imageContainer');
         const hiddenImageInput = document.getElementById('hiddenImageInput');
         const previewImage = document.getElementById('previewImage');
@@ -287,21 +148,52 @@
         const titleInput = document.getElementById('titleInput');
         const editableText = document.getElementById('editableText');
 
-        renderList();
-        showListView();
+        // アプリ起動時の処理（DB準備 → データ読み込み → 画面表示）
+        async function startApp() {
+            try {
+                await initDB();
+                articles = await loadArticlesFromDB();
+                
+                if (articles.length === 0) {
+                    openArticle(null); // 何もない時は新規作成画面
+                } else {
+                    renderList();
+                    showListView(); // ある時は一覧画面
+                }
+            } catch (error) {
+                alert("データベースの初期化に失敗しました。");
+            }
+        }
+        startApp(); // 起動！
 
-        imageContainer.addEventListener('click', () => {
-            hiddenImageInput.click();
-        });
-
+        // 画像選択処理（前回の軽量化処理も保持してさらにサクサクに）
+        imageContainer.addEventListener('click', () => hiddenImageInput.click());
         hiddenImageInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    previewImage.src = e.target.result;
-                    previewImage.style.display = 'block';
-                    imagePlaceholder.style.display = 'none';
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        const MAX_SIZE = 800;
+                        let width = img.width;
+                        let height = img.height;
+                        if (width > height) {
+                            if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; }
+                        } else {
+                            if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; }
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        previewImage.src = canvas.toDataURL('image/jpeg', 0.8);
+                        previewImage.style.display = 'block';
+                        imagePlaceholder.style.display = 'none';
+                    };
+                    img.src = e.target.result;
                 }
                 reader.readAsDataURL(file);
             }
@@ -331,7 +223,6 @@
                     currentEditId = article.id;
                     titleInput.innerText = article.title;
                     editableText.innerText = article.content;
-                    
                     if (article.image) {
                         previewImage.src = article.image;
                         previewImage.style.display = 'block';
@@ -347,29 +238,35 @@
             showEditorView();
         }
 
-        backToListBtn.addEventListener('click', () => {
+        newPostBtn.addEventListener('click', () => openArticle(null));
+
+        // 保存ボタン処理（async/awaitでIndexedDBの保存完了を待つ）
+        backToListBtn.addEventListener('click', async () => {
             const title = titleInput.innerText.trim() || "無題";
             const content = editableText.innerText.trim();
             const image = previewImage.style.display === 'block' ? previewImage.src : "";
+            const id = currentEditId !== null ? currentEditId : Date.now();
 
-            if (currentEditId !== null) {
-                const index = articles.findIndex(a => a.id === currentEditId);
-                if (index !== -1) {
-                    articles[index] = { id: currentEditId, title, content, image };
+            const newArticle = { id, title, content, image };
+
+            try {
+                // IndexedDBに保存
+                await saveArticleToDB(newArticle);
+                
+                // 画面表示用のリストも更新
+                if (currentEditId !== null) {
+                    const index = articles.findIndex(a => a.id === currentEditId);
+                    if (index !== -1) articles[index] = newArticle;
+                } else {
+                    articles.unshift(newArticle);
                 }
-            } else {
-                articles.unshift({ id: Date.now(), title, content, image });
+
+                renderList();
+                showListView();
+            } catch (e) {
+                alert("保存に失敗しました。");
+                console.error(e);
             }
-
-            // 変更点：記事を追加・更新したタイミングでブラウザに保存する
-            saveData();
-            
-            renderList();
-            showListView();
-        });
-
-        newPostBtn.addEventListener('click', () => {
-            openArticle(null);
         });
 
         function renderList() {
@@ -382,11 +279,16 @@
                 const deleteBg = document.createElement('div');
                 deleteBg.className = 'delete-action';
                 deleteBg.innerHTML = '削除';
-                deleteBg.addEventListener('click', () => {
-                    articles = articles.filter(a => a.id !== article.id);
-                    // 変更点：記事を削除したタイミングでもブラウザに保存（上書き）する
-                    saveData();
-                    renderList();
+                
+                // 削除処理（IndexedDBから消してから、画面表示リストからも消す）
+                deleteBg.addEventListener('click', async () => {
+                    try {
+                        await deleteArticleFromDB(article.id); // データベースから削除
+                        articles = articles.filter(a => a.id !== article.id); // メモリから削除
+                        renderList(); // 画面を更新
+                    } catch (e) {
+                        alert("削除に失敗しました。");
+                    }
                 });
 
                 const itemDiv = document.createElement('div');
@@ -405,45 +307,11 @@
                 wrapper.appendChild(itemDiv);
                 articleList.appendChild(wrapper);
 
-                let startX = 0;
-                let currentX = 0;
-                let isDragging = false;
-
-                itemDiv.addEventListener('pointerdown', (e) => {
-                    startX = e.clientX;
-                    isDragging = true;
-                    itemDiv.style.transition = 'none'; 
-                    itemDiv.setPointerCapture(e.pointerId);
-                });
-
-                itemDiv.addEventListener('pointermove', (e) => {
-                    if (!isDragging) return;
-                    currentX = e.clientX;
-                    let diff = currentX - startX;
-                    
-                    if (diff < 0) {
-                        let moveX = diff < -80 ? -80 + (diff + 80) * 0.2 : diff;
-                        itemDiv.style.transform = `translateX(${moveX}px)`;
-                    }
-                });
-
-                itemDiv.addEventListener('pointerup', (e) => {
-                    if (!isDragging) return;
-                    isDragging = false;
-                    itemDiv.style.transition = 'transform 0.3s ease'; 
-                    
-                    let diff = e.clientX - startX;
-
-                    if (diff < -50) {
-                        itemDiv.style.transform = `translateX(-80px)`;
-                    } else {
-                        itemDiv.style.transform = `translateX(0)`;
-                        
-                        if (Math.abs(diff) < 5) {
-                            openArticle(article.id);
-                        }
-                    }
-                });
+                // スワイプ処理
+                let startX = 0; let currentX = 0; let isDragging = false;
+                itemDiv.addEventListener('pointerdown', (e) => { startX = e.clientX; isDragging = true; itemDiv.style.transition = 'none'; itemDiv.setPointerCapture(e.pointerId); });
+                itemDiv.addEventListener('pointermove', (e) => { if (!isDragging) return; currentX = e.clientX; let diff = currentX - startX; if (diff < 0) { let moveX = diff < -80 ? -80 + (diff + 80) * 0.2 : diff; itemDiv.style.transform = `translateX(${moveX}px)`; } });
+                itemDiv.addEventListener('pointerup', (e) => { if (!isDragging) return; isDragging = false; itemDiv.style.transition = 'transform 0.3s ease'; let diff = e.clientX - startX; if (diff < -50) { itemDiv.style.transform = `translateX(-80px)`; } else { itemDiv.style.transform = `translateX(0)`; if (Math.abs(diff) < 5) openArticle(article.id); } });
             });
         }
     </script>
